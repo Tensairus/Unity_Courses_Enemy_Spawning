@@ -230,6 +230,28 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 21549908}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &60110865 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7798255318537362053, guid: 5bb029d55abab7241bd8bf6dcebee122, type: 3}
+  m_PrefabInstance: {fileID: 1685193031}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cdffba967908f04894c040ff05b0735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnPoint
+--- !u!114 &97602956 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7798255318537362053, guid: 5bb029d55abab7241bd8bf6dcebee122, type: 3}
+  m_PrefabInstance: {fileID: 582150990}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cdffba967908f04894c040ff05b0735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnPoint
 --- !u!1 &246836569
 GameObject:
   m_ObjectHideFlags: 0
@@ -598,6 +620,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 394218725}
+  - component: {fileID: 394218729}
   - component: {fileID: 394218728}
   - component: {fileID: 394218727}
   - component: {fileID: 394218726}
@@ -701,6 +724,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 394218724}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &394218729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 394218724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33622e64226207e4c9222ee8e153a9ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Floor
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -859,6 +894,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Spawner
   _enemyPrefab: {fileID: 8899102593923563709, guid: b7e6252ccdf3e01408f1b79a1f89359b, type: 3}
   _spawnIntervalSeconds: 2
+  _spawnPoints:
+  - {fileID: 784302311}
+  - {fileID: 97602956}
+  - {fileID: 875421361}
+  - {fileID: 60110865}
+  - {fileID: 902021341}
 --- !u!4 &487645803
 Transform:
   m_ObjectHideFlags: 0
@@ -988,6 +1029,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5bb029d55abab7241bd8bf6dcebee122, type: 3}
+--- !u!114 &784302311 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7798255318537362053, guid: 5bb029d55abab7241bd8bf6dcebee122, type: 3}
+  m_PrefabInstance: {fileID: 1957514108930523889}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cdffba967908f04894c040ff05b0735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnPoint
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1037,6 +1089,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &875421361 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7798255318537362053, guid: 5bb029d55abab7241bd8bf6dcebee122, type: 3}
+  m_PrefabInstance: {fileID: 646001236}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cdffba967908f04894c040ff05b0735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnPoint
+--- !u!114 &902021341 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7798255318537362053, guid: 5bb029d55abab7241bd8bf6dcebee122, type: 3}
+  m_PrefabInstance: {fileID: 1887903827}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cdffba967908f04894c040ff05b0735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnPoint
 --- !u!1 &915838023
 GameObject:
   m_ObjectHideFlags: 0
