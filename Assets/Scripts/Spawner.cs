@@ -1,32 +1,35 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private Enemy _enemyPrefab;
     [SerializeField] private float _spawnIntervalSeconds = 2f;
     [SerializeField] private bool isSpawning = true;
     [SerializeField]  private SpawnPoint[] _spawnPoints;
-    private ObjectPool<Enemy> _enemiesPool;
+
+    private Dictionary<Enemy, ObjectPool<Enemy>> _enemiesPools = new Dictionary<Enemy, ObjectPool<Enemy>>();
 
     private int _poolDefaultCapacity = 20;
     private int _poolMaxSize = 200;
 
-    private float spawnPositionY;
     private float spawnPositionYOffset = 2f;
 
     private void Awake()
     {
-        spawnPositionY = _enemyPrefab.gameObject.transform.localScale.y / spawnPositionYOffset;
+        foreach (SpawnPoint spawnPoint in _spawnPoints)
+        {
+            ObjectPool<Enemy> newEnemiesPool = new ObjectPool<Enemy>(
+                createFunc: () => OnCreateNewPoolableObject(spawnPoint.EnemyPrefab),
+                actionOnDestroy: (enemy) => OnDestroyPoolableObject(enemy),
+                actionOnRelease: (enemy) => OnReleasePoolableObject(enemy),
+                defaultCapacity: _poolDefaultCapacity,
+                maxSize: _poolMaxSize
+                );
 
-        _enemiesPool = new ObjectPool<Enemy>(
-            createFunc: () => OnCreateNewPoolableObject(),
-            actionOnDestroy: (enemy) => OnDestroyPoolableObject(enemy),
-            actionOnRelease: (enemy) => OnReleasePoolableObject(enemy),
-            defaultCapacity: _poolDefaultCapacity,
-            maxSize: _poolMaxSize
-            );
+            _enemiesPools.Add(spawnPoint.EnemyPrefab, newEnemiesPool);
+        }
     }
 
     private void Start()
@@ -34,9 +37,9 @@ public class Spawner : MonoBehaviour
         StartSpawning();
     }
 
-    private Enemy OnCreateNewPoolableObject()
+    private Enemy OnCreateNewPoolableObject(Enemy enemyPrefab)
     {
-        Enemy newEnemy = Instantiate(_enemyPrefab);
+        Enemy newEnemy = Instantiate(enemyPrefab);
         newEnemy.CollisionOccured += OnCollisionOccured;
         return newEnemy;
     }
@@ -52,29 +55,35 @@ public class Spawner : MonoBehaviour
         Destroy(enemy);
     }
 
-    private Vector3 GenerateSpawnPosition()
+    private SpawnPoint GetRandomSpawnPoint()
     {
-        Vector3 spawnPosition = _spawnPoints[Random.Range(0, _spawnPoints.Length)].transform.position;
+        return _spawnPoints[Random.Range(0, _spawnPoints.Length)];
+    }
+
+    private Vector3 GetSpawnPosition(SpawnPoint spawnPoint)
+    {
+        float spawnPositionY = spawnPoint.EnemyPrefab.gameObject.transform.localScale.y / spawnPositionYOffset;
+
+        Vector3 spawnPosition = spawnPoint.transform.position;
         spawnPosition.y = spawnPositionY;
         return spawnPosition;
     }
 
-    private void SpawnAtPosition(Enemy enemy, Vector3 spawnPosition)
+    private void SpawnAtPosition(SpawnPoint spawnPoint)
     {
-        Enemy newEnemy = _enemiesPool.Get();
+        Enemy newEnemy = _enemiesPools[spawnPoint.EnemyPrefab].Get();
 
         Vector3 moveDirectionOffset = Random.insideUnitSphere;
 
-        Vector3 targetPosition = spawnPosition + moveDirectionOffset;
-        targetPosition.y = spawnPosition.y;
+        Vector3 spawnPosition = GetSpawnPosition(spawnPoint);
 
-        newEnemy.Initialize(spawnPosition, targetPosition);
+        newEnemy.Initialize(spawnPosition, spawnPoint.Target);
         newEnemy.Activate();
     }
 
     private void OnCollisionOccured(Enemy enemy)
     {
-        _enemiesPool.Release(enemy);
+        Debug.Log(enemy + " collidied!");
     }
 
     private void StartSpawning()
@@ -88,7 +97,7 @@ public class Spawner : MonoBehaviour
 
         while (isSpawning)
         {
-            SpawnAtPosition(_enemyPrefab, GenerateSpawnPosition());
+            SpawnAtPosition(GetRandomSpawnPoint());
             yield return countdownTimer;
         }
     }
