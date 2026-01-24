@@ -40,30 +40,15 @@ public class Enemy : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    private void SetMovementDirection()
-    {
-        _currentMovementDirection = _currentTargetPosition - _rigidbody.transform.position;
-    }
-
     private void MoveInDirection()
     {
         _rigidbody.linearVelocity = _currentMovementDirection.normalized * _movementSpeed;
     }
 
-    private void GetCurrentTargetPosition()
-    {
-        _currentTargetPosition = _currentTarget.Position;
-    }
-
-    private void LookAtCurrentTarget()
-    {
-        transform.LookAt(_currentTargetPosition);
-    }
-
     private void PrepareToMove()
     {
-        GetCurrentTargetPosition();
-        SetMovementDirection();
-        LookAtCurrentTarget();
+        _currentTargetPosition = _currentTarget.Position;
+        _currentMovementDirection = _currentTargetPosition - _rigidbody.transform.position;
+        transform.LookAt(_currentTargetPosition);
     }
 }

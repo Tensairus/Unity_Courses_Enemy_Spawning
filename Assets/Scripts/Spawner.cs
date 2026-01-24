@@ -6,7 +6,7 @@ using UnityEngine.Pool;
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private float _spawnIntervalSeconds = 2f;
-    [SerializeField] private bool isSpawning = true;
+    [SerializeField] private bool _isSpawning = true;
     [SerializeField]  private SpawnPoint[] _spawnPoints;
 
     private Dictionary<Enemy, ObjectPool<Enemy>> _enemiesPools = new Dictionary<Enemy, ObjectPool<Enemy>>();
@@ -14,7 +14,7 @@ public class Spawner : MonoBehaviour
     private int _poolDefaultCapacity = 20;
     private int _poolMaxSize = 200;
 
-    private float spawnPositionYOffset = 2f;
+    private float _spawnPositionYOffset = 2f;
 
     private void Awake()
     {
@@ -62,7 +62,7 @@ public class Spawner : MonoBehaviour
 
     private Vector3 GetSpawnPosition(SpawnPoint spawnPoint)
     {
-        float spawnPositionY = spawnPoint.EnemyPrefab.gameObject.transform.localScale.y / spawnPositionYOffset;
+        float spawnPositionY = spawnPoint.EnemyPrefab.gameObject.transform.localScale.y / _spawnPositionYOffset;
 
         Vector3 spawnPosition = spawnPoint.transform.position;
         spawnPosition.y = spawnPositionY;
@@ -95,7 +95,7 @@ public class Spawner : MonoBehaviour
     {
         WaitForSeconds countdownTimer = new WaitForSeconds(_spawnIntervalSeconds);
 
-        while (isSpawning)
+        while (_isSpawning)
         {
             SpawnAtPosition(GetRandomSpawnPoint());
             yield return countdownTimer;

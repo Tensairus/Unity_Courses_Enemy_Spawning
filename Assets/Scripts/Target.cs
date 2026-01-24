@@ -12,6 +12,7 @@ public class Target : MonoBehaviour
 
     private int _waypointsArrayMinIndex;
     private int _waypointsArrayMaxIndex;
+    private int _currentWaypointIndex;
 
     public Vector3 Position => _rigidbody.transform.position;
 
@@ -22,9 +23,9 @@ public class Target : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (GetDistanceToTarget() <= _minDistanceToTarget)
+        if (_rigidbody.transform.position.IsCloseEnough(_currentTargetPosition, _minDistanceToTarget))
         {
-            SetNextTargetPosition();            
+            SetNextTargetPosition();
         }
 
         SetMovementDirection();
@@ -35,7 +36,8 @@ public class Target : MonoBehaviour
     {
         _waypointsArrayMinIndex = 0;
         _waypointsArrayMaxIndex = _waypoints.Length - 1;
-        _currentTargetPosition = _waypoints[0].transform.position;
+        _currentWaypointIndex = _waypointsArrayMinIndex;
+        _currentTargetPosition = _waypoints[_currentWaypointIndex].transform.position;
 
         SetMovementDirection();
     }
@@ -47,29 +49,14 @@ public class Target : MonoBehaviour
 
     private void SetNextTargetPosition()
     {
-        for (int i = _waypointsArrayMinIndex; i < _waypoints.Length; i++)
+        _currentWaypointIndex++;
+
+        if (_currentWaypointIndex > _waypointsArrayMaxIndex)
         {
-            int waypointsArrayNextIndex = i + 1;
-
-            if (GetWaypointPosition(_waypoints[i]) == _currentTargetPosition)
-            {
-                if (i == _waypointsArrayMaxIndex)
-                {
-                    _currentTargetPosition = GetWaypointPosition(_waypoints[_waypointsArrayMinIndex]);
-                }
-                else
-                {
-                    _currentTargetPosition = GetWaypointPosition(_waypoints[waypointsArrayNextIndex]);
-                }
-
-                break;
-            }
+            _currentWaypointIndex = _waypointsArrayMinIndex;
         }
-    }
 
-    private float GetDistanceToTarget()
-    {
-        return Vector3.Distance(_rigidbody.transform.position, _currentTargetPosition);
+        _currentTargetPosition = GetWaypointPosition(_waypoints[_currentWaypointIndex]);
     }
 
     private Vector3 GetWaypointPosition(Waypoint waypoint)
